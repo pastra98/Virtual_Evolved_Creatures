@@ -1,7 +1,7 @@
-# import numpy
-#
-# a_1 = np.array([1,2],[3,4])
+import numpy as np
 
-# print(a_1)
+a_1 = np.array([1,2])
+
+print(a_1)
 for x in range(10):
     print("hi")
