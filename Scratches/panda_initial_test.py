@@ -34,10 +34,10 @@ class MyApp(ShowBase):
 
         # Create the four lerp intervals needed for the panda to
         # walk back and forth.
-        pandaPosInterval1 = self.pandaActor.posInterval(0.1,
+        pandaPosInterval1 = self.pandaActor.posInterval(13,
                                                         Point3(0, -10, 0),
                                                         startPos=Point3(0, 10, 0))
-        pandaPosInterval2 = self.pandaActor.posInterval(0.1,
+        pandaPosInterval2 = self.pandaActor.posInterval(13,
                                                         Point3(0, 10, 0),
                                                         startPos=Point3(0, -10, 0))
         pandaHprInterval1 = self.pandaActor.hprInterval(3,
