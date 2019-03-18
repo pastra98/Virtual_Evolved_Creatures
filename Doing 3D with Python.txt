@@ -10,3 +10,6 @@ Though I have been able to fully render a blender scene through cd’ing to blende
 So while I’m definitely still trying to figure out if it can be done through blender, I’m also trying to look into other alternatives such as OpenGL, pi3d, Panda3D, vpython, vispy, (probably not:) matplotlib3d.
 But even instead looking into these things, for some weird reason I decided to start writing this text maybe as some kind of starting point for a future blog? Also just because I really wanna push something to GitHub. Oh and I should learn how to use git. And study Chinese. And…
 
+Day 2 – 18.03.2019
+For now I’ve decided on using Panda3D for this Project. I’m trying to figure out how to use it, and decide whether it is appropriate for this project. Right now I’m working myself through this guide on their website: [https://www.panda3d.org/manual/]. 
+
