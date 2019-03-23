@@ -109,5 +109,16 @@ triangle = render.attachNewNode(tri_node)
 # sides
 triangle.setTwoSided(True)
 
+# adding a light to the scene graph
+dlight = pan.DirectionalLight('dlight')
+dlight.setColor(pan.VBase4(0.8, 0.8, 0.5, 1))
+dlnp = render.attachNewNode(dlight)
+dlnp.setHpr(0, -60, 0)
+render.setLight(dlnp)
+# Use a 512x512 resolution shadow map
+dlight.setShadowCaster(True, 512, 512)
+# Enable the shader generator for the receiving nodes
+render.setShaderAuto()
+
 # runs panda3d.core.showbase.ShowBase, thus opening our scene in a window
 base.run()

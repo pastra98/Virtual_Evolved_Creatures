@@ -38,7 +38,6 @@ nor_vw.addData3f(0, 0, -1)
 col_vw.addData3f(1, 0, 0)
 
 ver_vw.addData3f(0, -1, 0)
-nor_vw.addData3f(0, 0, -1)
 col_vw.addData3f(1, 0, 0)
 
 ver_vw.addData3f(1, 0, 0)
