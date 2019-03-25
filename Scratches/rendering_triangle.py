@@ -9,7 +9,7 @@ base = shb()
 # creating an array for a GeomVertexArray Format:
 arr1 = pan.GeomVertexArrayFormat()
 
-#creating a Format to later add my arrays to:
+#creating a Format to later add my array format to:
 format1 = pan.GeomVertexFormat()
 
 # adding column to our array, specifying that the first column in arr1 is going
