@@ -74,7 +74,7 @@ class Geometry_op:
         self.tri_prim.add_next_vertices(3)
 
         self.tri_prim.closePrimitive()
-
+        print(self.v_dat)
         return self.tri_prim
 
 
@@ -84,7 +84,7 @@ class Geometry_op:
         and 4 faces. ACTUALLY, THIS METHOD DOESN'T DO ANYTHING 
         IMPORTANT RIGHT NOW!!!!!!
         """
-        self.dreieck = self.make_tri([0, 0, 0], [0, 100, 0], [0, 0, 100])
+        self.dreieck = self.make_tri([0, 100, 0], [10, 100, 0], [0, 100, 10])
         self.b_geom.add_primitive(self.dreieck)
 
 
