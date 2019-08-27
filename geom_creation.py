@@ -3,8 +3,6 @@ from panda3d import core as cor
 from panda3d.core import Geom as geo
 from direct.showbase import ShowBase as shb
 
-# init ShowBase class in order to get a scene graph and other stuff
-base = shb.ShowBase()
 
 class Geometry_op:
     """
@@ -51,8 +49,8 @@ class Geometry_op:
     def make_tri(self, p1, p2, p3, col="orange"):
         """
         Creates a triangle primitive, whose vertices are written
-        onto 3d_Struct objects. Parameters p1, p2, p3 are given as a
-        list, with x, y and z coordinates.
+        onto geom_op object(this class). Parameters p1, p2, p3
+        are given as a list, with x, y and z coordinates.
         """
         # returns normal vector as list object
         n = self.calc_normals(p1, p2, p3)
@@ -72,20 +70,12 @@ class Geometry_op:
 
         # add vertices to triangle primitive
         self.tri_prim.add_next_vertices(3)
-
+        # close primitive
         self.tri_prim.closePrimitive()
-        print(self.v_dat)
+        # adds primitive to geom
+        self.b_geom.add_primitive(self.tri_prim)
+
         return self.tri_prim
-
-
-    def build_structure(self):
-        """
-        This method returns a new 3d simplex consisting of 4 Vertices
-        and 4 faces. ACTUALLY, THIS METHOD DOESN'T DO ANYTHING 
-        IMPORTANT RIGHT NOW!!!!!!
-        """
-        self.dreieck = self.make_tri([0, 100, 0], [10, 100, 0], [0, 100, 10])
-        self.b_geom.add_primitive(self.dreieck)
 
 
 
@@ -97,17 +87,3 @@ class Geometry_op:
         pass
 
 
-# THE FOLLOWING LINES WILL ALSO NOT BE INCLUDED VERY SOON!!!
-my_triangle = Geometry_op("Test1")
-my_triangle.build_structure()
-
-# creating a nodepath
-Node = cor.GeomNode("cube1")
-
-# adding our triangle to the newly created node
-Node.addGeom(my_triangle.b_geom)
-
-# creating a nodepath for our cube and attaching it to render
-NodePath = render.attachNewNode(Node)
-
-base.run()
