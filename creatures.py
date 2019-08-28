@@ -30,9 +30,10 @@ class Bone(Geometry_op):
         """
         # initialize parent Geometry_op with given name
         super().__init__(name)
-
-        self.base_tri = self.make_tri([0, 100, 0], [10, 100, 0],
-                                                   [0, 100, 10])
+        p1 = cor.LPoint3f(0, 100, 0)
+        p2 = cor.LPoint3f(10, 100, 0)
+        p3 = cor.LPoint3f(0, 100, 10)
+        self.base_tri = self.make_tri(["A", p1, p2, p3])
 
 
 
