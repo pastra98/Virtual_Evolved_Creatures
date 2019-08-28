@@ -18,6 +18,7 @@ class Geometry_op:
               "blue":(1., 0., 0., 1.), "orange":(0.1, 0.5, 0., 1.)}
 
 
+
     def __init__(self, name):
         """
         Initializes vertex data, writers, and a Geom.
@@ -25,6 +26,14 @@ class Geometry_op:
         # vertex data
         self.v_dat = cor.GeomVertexData("d_{}".format(name),
                                         self.form3, geo.UHStatic)
+
+        # nested list containing structure of geom. First value
+        # represents extension point number, second is which face it
+        # applies to, third is the barycentric coords of the extension
+        # point, and fourth is the height of the extension.
+        # ALL THIS IS SUBJECT TO CHANGE WHEN I ADD SQUARES & CUBES
+        # I might have to add another structure type for cubes
+        self.buildInstruct = []
 
         # vertex writers
         self.ver_w = cor.GeomVertexWriter(self.v_dat, "vertex")
@@ -34,6 +43,7 @@ class Geometry_op:
         # create a Geom
         self.b_geom = cor.Geom(self.v_dat)
 
+        # WILL ADD VOLUME VARIABLE TO KEEP TRACK OF TOTAL GEOM VOLUME
 
     def calc_normals(self, face):
         """
@@ -76,18 +86,32 @@ class Geometry_op:
         self.tri_prim.closePrimitive()
         # adds primitive to geom
         self.b_geom.add_primitive(self.tri_prim)
+        # add reference of primitive to face
+        face.append(self.tri_prim)
 
-        print(face)
-        print(self.v_dat)
         return self.tri_prim
 
 
+    def build_struct(self, base_tri_0, build_instructions):
+        """
+        """
+        self.make_tri(base_tri_0)
+        build_instructions.sort()
 
-    def extend_structure(self, t_tri = 0, t_point = 0):
-        """
-        Operates on a given 3d_Struct, by creating 3 tris that extend
-        from t_tri to t_point. WILL ALSO WORK DIFFERENTLY IN THE END!!!
-        """
-        pass
+        for extension in build_instructions:
+            # barycentric_coords(face)
+            # extend
+            # make tri & append name to extension (extension = 1 build instr.)
+            # make tri & append name to extension (extension = 1 build instr.)
+            # make tri & append name to extension (extension = 1 build instr.)
+
+            # DISCLAIMER: face values such as normals and name must be added to
+            # the extension, for it to be included in self.buildInstruct
+
+            # calc volume and add it to self.volume
+            # remove face
+            # add extension to self.buildInstruct
+            pass
+
 
 
