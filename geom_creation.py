@@ -35,34 +35,36 @@ class Geometry_op:
         self.b_geom = cor.Geom(self.v_dat)
 
 
-    def calc_normals(self, p1, p2, p3):
+    def calc_normals(self, face):
         """
         Calculates normal vector to 3 given points, assuming they're
-        on the same plane. Still lacks decision for correct direction.
+        on the same plane. Params must be of Type core.LPoint3f .
+        Result is then appended to face array, making it 5th component.
         """
-        n = np.cross(np.array(p2) - np.array(p1),
-                     np.array(p3) - np.array(p1))
+        n = np.cross(face[2] - face[1], face[3] - face[1])
+        n = cor.LVector3f(n[0], n[1], n[2])
+        n.normalize()
 
-        return np.ndarray.tolist(n)
+        face.append(n)
+        return face
 
 
-    def make_tri(self, p1, p2, p3, col="orange"):
+
+    def make_tri(self, face, col="orange"):
         """
         Creates a triangle primitive, whose vertices are written
-        onto geom_op object(this class). Parameters p1, p2, p3
-        are given as a list, with x, y and z coordinates.
+        onto geom_op object(this class). The 3 Points that make up the
+        triangle are given as core.LPoint3f in a list (face).
         """
         # returns normal vector as list object
-        n = self.calc_normals(p1, p2, p3)
-        # create list of points for looping through them
-        tri_points = [p1, p2, p3]
+        self.calc_normals(face)
         # create a triangle primitive
         self.tri_prim = cor.GeomTriangles(geo.UHStatic)
         # succesively fill vertex data based on given params, and add
         # it to the tri_prim
-        for point in tri_points:
-            self.ver_w.add_data3f(point[0], point[1], point[2])
-            self.nor_w.add_data3f(n[0], n[1], n[2])
+        for point in face[1:4]:
+            self.ver_w.add_data3f(point)
+            self.nor_w.add_data3f(face[4])
             self.col_w.add_data4f(self.colors[col][0],
                                   self.colors[col][1],
                                   self.colors[col][2],
@@ -75,6 +77,8 @@ class Geometry_op:
         # adds primitive to geom
         self.b_geom.add_primitive(self.tri_prim)
 
+        print(face)
+        print(self.v_dat)
         return self.tri_prim
 
 
