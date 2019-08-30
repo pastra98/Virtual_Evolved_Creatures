@@ -15,9 +15,11 @@ class Geometry_op:
     form3 = cor.GeomVertexFormat.get_v3n3c4()
     form3 = form3.registerFormat(form3) # registering & replacing
 
-    # color list FIX DAT SHIT IT'S BROKEN!!!!!
-    colors = {"red":(1., 0., 0., 1.), "green":(0., 1., 0., 1.),
-              "blue":(1., 0., 0., 1.), "orange":(0.1, 0.5, 0., 1.)}
+    # color list
+    colors = {"red" : cor.LVecBase4f(1., 0., 0., 1.),
+              "green" : cor.LVecBase4f(0., 1., 0., 1.),
+              "blue" : cor.LVecBase4f(0., 0., 1., 1.),
+              "orange" : cor.LVecBase4f(1., 0.6, 0., 1.)}
 
 
 
@@ -40,7 +42,7 @@ class Geometry_op:
 
         # List containg all faces
         self.f_list = []
-        self.deleteThis = 0
+        self.vertex_count = 0
 
 
     def calc_normals(self, face):
@@ -85,31 +87,29 @@ class Geometry_op:
         onto geom_op object(this class). The 3 Points that make up the
         triangle are given as core.LPoint3f in a list (face).
         """
-        # returns normal vector as list object
+        # calculate normals and add them to face data
         self.calc_normals(face)
-        # create a triangle primitive
+
+        # triangles primitive
         self.tri_prim = cor.GeomTriangles(geo.UHStatic)
-        # succesively fill vertex data based on given params, and add
-        # it to the tri_prim
+
+        # succesively fill vertex data based on given params
         for point in face[1:4]:
             self.ver_w.add_data3f(point)
             self.nor_w.add_data3f(face[4])
-            self.col_w.add_data4f(self.colors[col][0],
-                                  self.colors[col][1],
-                                  self.colors[col][2],
-                                  self.colors[col][3],)
+            self.col_w.add_data4f(self.colors[col])
 
-        # add vertices to triangle primitive
-        self.tri_prim.addConsecutiveVertices(self.deleteThis, 3)
-        self.deleteThis += 3
-        print(self.deleteThis)
-        # close primitive
+
+        # add vertices to triangle primitive & increase counter
+        self.tri_prim.addConsecutiveVertices(self.vertex_count, 3)
+        self.vertex_count += 3
+
+        # close primitive, add primitive to geom
         self.tri_prim.closePrimitive()
-        # adds primitive to geom
         self.b_geom.add_primitive(self.tri_prim)
-        # add reference of primitive to face
+
+        # Update list of faces
         face.append(self.tri_prim)
-        # add face to face list for later reference
         self.f_list.append(face)
 
         return self.tri_prim
