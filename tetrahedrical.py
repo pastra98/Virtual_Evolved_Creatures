@@ -23,10 +23,9 @@ class tetrahedrical(Geometry_op):
         # initialize parent Geometry_op with given name
         super().__init__(name)
 
-        # nested list containing structure of geom. First value
-        # represents extension point number, second is which face it
-        # applies to, third is the barycentric coords of the extension
-        # point, and fourth is the height of the extension.
+        # nested list containing structure of geom.
+        # [0] : extension point number, [1] : name of face for extend,
+        # [2] : barycentric coords , [3] : height of extension
         self.buildInstruct = []
 
         # WILL ADD VOLUME VARIABLE TO KEEP TRACK OF TOTAL GEOM VOLUME
@@ -39,20 +38,29 @@ class tetrahedrical(Geometry_op):
         build_instr.sort()
 
         for extension in build_instr:
-            # will have to figure out how to use f_list
-            ext_p = self.extend_p(self.f_list[0], extension[2][0],
+
+            # finds face that is given in extension[1]
+            for face in self.f_list:
+                if face[0] == extension[1]:
+                    print(extension[1])
+                    t_tri = face
+                    print(face)
+
+            # gets point on target face at given coords and height
+            ext_p = self.extend_p(t_tri, extension[2][0],
                                      extension[2][1], extension[3])
 
-            # make tri & append name to extension (ext = 1 build instr.)
-            # names will also have to be fixed
-            self.make_tri(["A",
-                          self.f_list[0][1], self.f_list[0][2], ext_p])
-            self.make_tri(["B",
-                          self.f_list[0][2], self.f_list[0][3], ext_p])
-            self.make_tri(["C",
-                          self.f_list[0][3], self.f_list[0][1], ext_p])
+            # make tri & append name to extension
+            self.make_tri(["{}A".format(extension[0]),
+                          face[1], face[2], ext_p])
 
+            self.make_tri(["{}B".format(extension[0]),
+                          face[2], face[3], ext_p])
 
+            self.make_tri(["{}C".format(extension[0]),
+                          face[3], face[1], ext_p])
+
+            # self.flip_normals(self.f_list[0])
             # calc volume and add it to self.volume
             # remove face
             # add extension to self.buildInstruct
