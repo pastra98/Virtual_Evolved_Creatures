@@ -35,7 +35,9 @@ class Bone(tetrahedrical):
                               cor.LPoint3f(10, 0, 0),
                               cor.LPoint3f(0, 10, 0)]
 
-        build_instructions = [[1, "0", [0.3, 0.3], 5]]
+        build_instructions = [[1, "0", [0.3, 0.3], 5],
+                              [2, "1A", [0.3, 0.3], 5],
+                              [3, "1B", [0.3, 0.3], 5]]
 
         self.build_struct(base_triangle, build_instructions)
 
