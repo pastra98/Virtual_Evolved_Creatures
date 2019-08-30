@@ -40,7 +40,8 @@ class Geometry_op:
         # create a Geom
         self.b_geom = cor.Geom(self.v_dat)
 
-        # List containg all faces
+        # List containg all faces. Values are: [0]:"name of face",
+        # [1]:p1, [2]:p2, [3]:p3, [4]:normal_vec, [5]:geom.primitive
         self.f_list = []
         self.vertex_count = 0
 
@@ -79,6 +80,22 @@ class Geometry_op:
         with the normal vector.
         """
         return self.find_bary(face, u, v) + face[4] * height
+
+
+    def flip_normals(self, face):
+        """
+        Flips the normals of a given face
+        """
+        t_tri = face[5].getVertexList()
+        data = self.b_geom.modifyVertexData()
+        n_flipper = cor.GeomVertexWriter(data, "normal")
+
+        for vertex in t_tri:
+            n_flipper.setRow(vertex)
+            n_flipper.setData3f(0, 0, 7)
+
+
+        # print(self.v_dat)
 
 
     def make_tri(self, face, col="orange"):
