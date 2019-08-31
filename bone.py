@@ -25,12 +25,12 @@ class Bone(tetrahedrical):
                               cor.LPoint3f(0, 10, 0)]
 
         # nested list containing structure of geom.
-        # [0] : extension point number, [1] : name of face for extend,
-        # [2] : barycentric coords , [3] : height of extension
+        # [0]:extension point number, [1]:name of face for extend,
+        # [2]:barycentric coords , [3]:height of extension, [4]:color
         # if [0] is -1, [1] must be "-0"
-        build_instructions = [[1, "0", [0.3, 0.3], 5],
-                              [-1, "-0", [0.3, 0.3], 5],
-                              [-2, "-1A", [0.3, 0.3], 5]]
+        build_instructions = [[1, "0", [0.3, 0.3], 5, "blue"],
+                              [-1, "-0", [0.3, 0.3], 5, "blue"],
+                              [-2, "-1A", [0.3, 0.3], 5, "blue"]]
 
         # invalid when [1]face_n is refered bef. corresp. [0]extension
         self.build_struct(base_triangle, build_instructions)
