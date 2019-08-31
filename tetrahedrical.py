@@ -23,12 +23,20 @@ class tetrahedrical(Geometry_op):
         # initialize parent Geometry_op with given name
         super().__init__(name)
 
-        # nested list containing structure of geom.
-        # [0] : extension point number, [1] : name of face for extend,
-        # [2] : barycentric coords , [3] : height of extension
-        self.buildInstruct = []
+        # keeps track of the total geom volume
+        self.geom_vol = 0
 
-        # WILL ADD VOLUME VARIABLE TO KEEP TRACK OF TOTAL GEOM VOLUME
+
+    def volume_tetrahed(self, t_tri, ext_p):
+        """
+        Returns area of a tetrahedron, given the base, and top point.
+        Method: Calculates vol of parallelepiped, divides by 6.
+        """
+        # find cross product of the two base vectors, returns np.array
+        c_prod = np.cross(t_tri[2] - t_tri[1], t_tri[3] - t_tri[1])
+
+        vol = (np.dot(c_prod, (ext_p - t_tri[1])) / 6)
+        self.geom_vol += vol
 
 
     def build_struct(self, base_tri, build_instr):
@@ -38,9 +46,9 @@ class tetrahedrical(Geometry_op):
         """
         # base triangle "0" on which first extension will be performed
         self.make_tri(base_tri)
-        build_instr.sort()
-        # var for checking if base_tri should be flipped or kept
-        check_0 = 0
+
+        # make reversed base tri for downwards extension
+        self.make_tri(["-0", base_tri[3], base_tri[2], base_tri[1]])
 
         # loop through every instruction (extension) in the set
         for extension in build_instr:
@@ -52,30 +60,19 @@ class tetrahedrical(Geometry_op):
 
             # gets point on target face at given coords and height
             ext_p = self.extend_p(t_tri, extension[2][0],
-                                     extension[2][1], extension[3])
+                                         extension[2][1], extension[3])
 
-            # make tri
+            # generate 3 tris from t_tri to ext_p
             self.make_tri(["{}A".format(extension[0]),
-                          t_tri[1], t_tri[2], ext_p])
+                            t_tri[1], t_tri[2], ext_p])
 
             self.make_tri(["{}B".format(extension[0]),
-                          t_tri[2], t_tri[3], ext_p])
+                            t_tri[2], t_tri[3], ext_p])
 
             self.make_tri(["{}C".format(extension[0]),
-                          t_tri[3], t_tri[1], ext_p])
-
-            # check what to do with base_tri.
-            if check_0 <= 2: # Has base_tri been extended twice?
-                if extension[0] == 1: # is the extension positive?
-                    self.make_tri(["02", t_tri[3], t_tri[2], t_tri[1]])
-                    check_0 += 1 # make a new one with flipped face
-                elif extension[0] == -1: # is it negative / downwards?
-                    check_0 += 1
-
-            # self.flip_normals(self.f_list[0])
-            # calc volume and add it to self.volume
-            # remove face
-            # add extension to self.buildInstruct
+                            t_tri[3], t_tri[1], ext_p])
 
 
+            # Calculate volume of extension and add it to self.geom_vol
+            self.volume_tetrahed(t_tri, ext_p)
 
