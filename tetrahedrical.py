@@ -33,32 +33,44 @@ class tetrahedrical(Geometry_op):
 
     def build_struct(self, base_tri, build_instr):
         """
+        Succesively builds a structure based on a given build instruct.
+        Currently this method does not delete any primitives or verts.
         """
+        # base triangle "0" on which first extension will be performed
         self.make_tri(base_tri)
         build_instr.sort()
+        # var for checking if base_tri should be flipped or kept
+        check_0 = 0
 
+        # loop through every instruction (extension) in the set
         for extension in build_instr:
 
             # finds face that is given in extension[1]
             for face in self.f_list:
                 if face[0] == extension[1]:
-                    print(extension[1])
                     t_tri = face
-                    print(face)
 
             # gets point on target face at given coords and height
             ext_p = self.extend_p(t_tri, extension[2][0],
                                      extension[2][1], extension[3])
 
-            # make tri & append name to extension
+            # make tri
             self.make_tri(["{}A".format(extension[0]),
-                          face[1], face[2], ext_p])
+                          t_tri[1], t_tri[2], ext_p])
 
             self.make_tri(["{}B".format(extension[0]),
-                          face[2], face[3], ext_p])
+                          t_tri[2], t_tri[3], ext_p])
 
             self.make_tri(["{}C".format(extension[0]),
-                          face[3], face[1], ext_p])
+                          t_tri[3], t_tri[1], ext_p])
+
+            # check what to do with base_tri.
+            if check_0 <= 2: # Has base_tri been extended twice?
+                if extension[0] == 1: # is the extension positive?
+                    self.make_tri(["02", t_tri[3], t_tri[2], t_tri[1]])
+                    check_0 += 1 # make a new one with flipped face
+                elif extension[0] == -1: # is it negative / downwards?
+                    check_0 += 1
 
             # self.flip_normals(self.f_list[0])
             # calc volume and add it to self.volume
