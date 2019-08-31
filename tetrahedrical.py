@@ -64,13 +64,13 @@ class tetrahedrical(Geometry_op):
 
             # generate 3 tris from t_tri to ext_p
             self.make_tri(["{}A".format(extension[0]),
-                            t_tri[1], t_tri[2], ext_p])
+                            t_tri[1], t_tri[2], ext_p], extension[4])
 
             self.make_tri(["{}B".format(extension[0]),
-                            t_tri[2], t_tri[3], ext_p])
+                            t_tri[2], t_tri[3], ext_p], extension[4])
 
             self.make_tri(["{}C".format(extension[0]),
-                            t_tri[3], t_tri[1], ext_p])
+                            t_tri[3], t_tri[1], ext_p], extension[4])
 
 
             # Calculate volume of extension and add it to self.geom_vol
