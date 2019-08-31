@@ -82,22 +82,6 @@ class Geometry_op:
         return self.find_bary(face, u, v) + face[4] * height
 
 
-    def flip_normals(self, face):
-        """
-        Flips the normals of a given face
-        """
-        t_tri = face[5].getVertexList()
-        data = self.b_geom.modifyVertexData()
-        n_flipper = cor.GeomVertexWriter(data, "normal")
-
-        for vertex in t_tri:
-            n_flipper.setRow(vertex)
-            n_flipper.setData3f(0, 0, 7)
-
-
-        # print(self.v_dat)
-
-
     def make_tri(self, face, col="orange"):
         """
         Creates a triangle primitive, whose vertices are written
