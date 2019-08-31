@@ -1,7 +1,7 @@
 from tetrahedrical import tetrahedrical
 from geom_creation import Geometry_op
 from creatures import Creature
-from creatures import Bone
+from bone import Bone
 
 from panda3d import core as cor
 from panda3d.core import Geom as geo
