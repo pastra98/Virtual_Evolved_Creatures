@@ -23,10 +23,10 @@ render.set_light(light)
 # creating a nodepath
 Node = cor.GeomNode("cube2")
 
-# adding our triangle to the newly created node
+# adding tetrahedrical to the newly created node
 Node.addGeom(my_bone.b_geom)
 
-# creating a nodepath for our cube and attaching it to render
+# creating a nodepath for cube and attaching it to render
 NodePath = render.attachNewNode(Node)
 
 base.run()
